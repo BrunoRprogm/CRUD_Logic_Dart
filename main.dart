@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'agenda.dart';
-import 'contato.dart';
 
 Agenda agenda = Agenda([]);
 

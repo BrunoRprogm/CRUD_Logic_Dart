@@ -5,6 +5,8 @@ import 'contato_empresarial.dart';
 import 'contato_pessoal.dart';
 
 class Agenda {
+  //ABACAXI123 (era "class Agenda extends Contato{" - Agenda não é um tipo de Contato)
+
   Contato contatoPessoal = ContatoPessoal(
     'Bruno',
     '1234567890 ',
@@ -28,144 +30,145 @@ class Agenda {
   // Construtor da minha classe contatos
   Agenda(this.contatos);
 
-  void Cadastrar( Contato cadastroContato) {
-    print('Deseja cadastrar um contato pessoal ou empresarial? (Digite "p" para pessoal ou "e" para empresarial)');
+  void Cadastrar() {
+    //ABACAXI123 (removido parâmetro "Contato cadastroContato" que nunca era usado e não batia com a chamada em main.dart)
+    print(
+      'Deseja cadastrar um contato pessoal ou empresarial? (Digite "p" para pessoal ou "e" para empresarial)',
+    );
     String tipo = stdin.readLineSync() ?? '';
 
     Contato contato; //
     if (tipo == 'p') {
-    contato = ContatoPessoal('', '', '', '');
-    print('Digite seu nome:');
-    contatoPessoal.nome = stdin.readLineSync() ?? '';
+      contato = ContatoPessoal('', '', '', '');
+      print('Digite seu nome:');
+      contato.nome =
+          stdin.readLineSync() ??
+          ''; //ABACAXI123 (era "contatoPessoal.nome = ..." - estava escrevendo no objeto errado)
 
-    while (contato.nome.isEmpty || RegExp(r'^\s*$').hasMatch(contato.nome)) {
-      print('⚠ Não pode ficar vazio. Por favor, digite novamente:');
-      contato.nome = stdin.readLineSync() ?? '';
-      Historico.add('Adicinou: ${contato.nome}');
-
-      if (contato.nome.isEmpty ||  RegExp(r'^\s*$').hasMatch(contato.nome)) {
+      while (contato.nome.isEmpty || RegExp(r'^\s*$').hasMatch(contato.nome)) {
         print('⚠ Não pode ficar vazio. Por favor, digite novamente:');
-      } else if (!RegExp(nomePattern).hasMatch(contato.nome)) {
-        print(
-          '⚠ Nome inválido. Use apenas letras e espaços. Digite novamente:',
-        );
+        contato.nome = stdin.readLineSync() ?? '';
+        Historico.add('Adicinou: ${contato.nome}');
+
+        if (contato.nome.isEmpty || RegExp(r'^\s*$').hasMatch(contato.nome)) {
+          print('⚠ Não pode ficar vazio. Por favor, digite novamente:');
+        } else if (!RegExp(nomePattern).hasMatch(contato.nome)) {
+          print(
+            '⚠ Nome inválido. Use apenas letras e espaços. Digite novamente:',
+          );
+          contato.nome = stdin.readLineSync() ?? '';
+        }
+      }
+      //Contains serve para comparar se o nome digitado já existe na lista.
+      //Que porra é essa da linha abaixo? Questionar o professor
+      while (contatos.any((c) => c.nome == contato.nome)) {
+        print('Já existe um contato com esse nome. Digite novamente:');
         contato.nome = stdin.readLineSync() ?? '';
       }
-    }
-    //Contains serve para comparar se o nome digitado já existe na lista.
-    //Que porra é essa da linha abaixo? Questionar o professor
-    while (contatos.any((c) => c.nome == contato.nome)) {
-      print('Já existe um contato com esse nome. Digite novamente:');
-      contato.nome = stdin.readLineSync() ?? '';
-    }
 
-    contatos.add(contato);
-    print('Nome cadastrado com sucesso: ${contato.nome}');
-    Historico.add('Adicionou: ${contato.nome}');
+      contatos.add(contato);
+      print('Nome cadastrado com sucesso: ${contato.nome}');
+      Historico.add('Adicionou: ${contato.nome}');
 
-    print('\n');
-    print('Digite seu telefone:');
-    contato.telefone = stdin.readLineSync() ?? '';
-
-    while (contato.telefone.isEmpty || !RegExp(telefonePattern).hasMatch(contato.telefone)) {
-      print(
-        '⚠ telefone inválido. Digite 10 ou 11 números. Exemplo: (11) 91234-5678, digite novamente:',
-      );
+      print('\n');
+      print('Digite seu telefone:');
       contato.telefone = stdin.readLineSync() ?? '';
-    }
-    print('telefone cadastrado com sucesso: ${contato.telefone}');
-    Historico.add('Adicionou: ${contato.telefone}');
 
-    print('\n');
-    print('Digite seu email:');
-    contato.email = stdin.readLineSync() ?? '';
+      while (contato.telefone.isEmpty ||
+          !RegExp(telefonePattern).hasMatch(contato.telefone)) {
+        print(
+          '⚠ telefone inválido. Digite 10 ou 11 números. Exemplo: (11) 91234-5678, digite novamente:',
+        );
+        contato.telefone = stdin.readLineSync() ?? '';
+      }
+      print('telefone cadastrado com sucesso: ${contato.telefone}');
+      Historico.add('Adicionou: ${contato.telefone}');
 
-    while (contato.email.isEmpty ||
-        !RegExp(emailPattern).hasMatch(contato.email)) {
-      print(
-        '⚠ E-mail inválido. Use o formato nome@dominio.com, digite novamente:',
-      );
+      print('\n');
+      print('Digite seu email:');
       contato.email = stdin.readLineSync() ?? '';
-    }
-    print('email cadastrado com sucesso: ${contato.email}');
-    Historico.add('Adicionou: ${contato.email}');
 
-    print('\n');
-    print('✓ Contato adicionado.');
+      while (contato.email.isEmpty ||
+          !RegExp(emailPattern).hasMatch(contato.email)) {
+        print(
+          '⚠ E-mail inválido. Use o formato nome@dominio.com, digite novamente:',
+        );
+        contato.email = stdin.readLineSync() ?? '';
+      }
+      print('email cadastrado com sucesso: ${contato.email}');
+      Historico.add('Adicionou: ${contato.email}');
 
+      print('\n');
+      print('✓ Contato adicionado.');
 
-// || Aqui estou defindo se o contato salvo será empresarial ou pessoal
-
-
+      // || Aqui estou defindo se o contato salvo será empresarial ou pessoal
     } else if (tipo == 'e') {
       contato = ContatoEmpresarial('', '', '', '');
 
-  
-    print('Digite seu nome:');
-    contatoPessoal.nome = stdin.readLineSync() ?? '';
+      print('Digite seu nome:');
+      contato.nome =
+          stdin.readLineSync() ??
+          ''; //ABACAXI123 (era "contatoPessoal.nome = ..." - estava escrevendo no objeto errado)
 
-    while (contato.nome.isEmpty || RegExp(r'^\s*$').hasMatch(contato.nome)) {
-      print('⚠ Não pode ficar vazio. Por favor, digite novamente:');
-      contato.nome = stdin.readLineSync() ?? '';
-      Historico.add('Adicinou: ${contato.nome}');
-
-      if (contato.nome.isEmpty ||  RegExp(r'^\s*$').hasMatch(contato.nome)) {
+      while (contato.nome.isEmpty || RegExp(r'^\s*$').hasMatch(contato.nome)) {
         print('⚠ Não pode ficar vazio. Por favor, digite novamente:');
-      } else if (!RegExp(nomePattern).hasMatch(contato.nome)) {
-        print(
-          '⚠ Nome inválido. Use apenas letras e espaços. Digite novamente:',
-        );
+        contato.nome = stdin.readLineSync() ?? '';
+        Historico.add('Adicinou: ${contato.nome}');
+
+        if (contato.nome.isEmpty || RegExp(r'^\s*$').hasMatch(contato.nome)) {
+          print('⚠ Não pode ficar vazio. Por favor, digite novamente:');
+        } else if (!RegExp(nomePattern).hasMatch(contato.nome)) {
+          print(
+            '⚠ Nome inválido. Use apenas letras e espaços. Digite novamente:',
+          );
+          contato.nome = stdin.readLineSync() ?? '';
+        }
+      }
+      //Contains serve para comparar se o nome digitado já existe na lista.
+      //Que porra é essa da linha abaixo? Questionar o professor
+      while (contatos.any((c) => c.nome == contato.nome)) {
+        print('Já existe um contato com esse nome. Digite novamente:');
         contato.nome = stdin.readLineSync() ?? '';
       }
-    }
-    //Contains serve para comparar se o nome digitado já existe na lista.
-    //Que porra é essa da linha abaixo? Questionar o professor
-    while (contatos.any((c) => c.nome == contato.nome)) {
-      print('Já existe um contato com esse nome. Digite novamente:');
-      contato.nome = stdin.readLineSync() ?? '';
-    }
 
-    contatos.add(contato);
-    print('Nome cadastrado com sucesso: ${contato.nome}');
-    Historico.add('Adicionou: ${contato.nome}');
+      contatos.add(contato);
+      print('Nome cadastrado com sucesso: ${contato.nome}');
+      Historico.add('Adicionou: ${contato.nome}');
 
-    print('\n');
-    print('Digite seu telefone:');
-    contato.telefone = stdin.readLineSync() ?? '';
-
-    while (contato.telefone.isEmpty || !RegExp(telefonePattern).hasMatch(contato.telefone)) {
-      print(
-        '⚠ telefone inválido. Digite 10 ou 11 números. Exemplo: (11) 91234-5678, digite novamente:',
-      );
+      print('\n');
+      print('Digite seu telefone:');
       contato.telefone = stdin.readLineSync() ?? '';
-    }
-    print('telefone cadastrado com sucesso: ${contato.telefone}');
-    Historico.add('Adicionou: ${contato.telefone}');
 
-    print('\n');
-    print('Digite seu email:');
-    contato.email = stdin.readLineSync() ?? '';
+      while (contato.telefone.isEmpty ||
+          !RegExp(telefonePattern).hasMatch(contato.telefone)) {
+        print(
+          '⚠ telefone inválido. Digite 10 ou 11 números. Exemplo: (11) 91234-5678, digite novamente:',
+        );
+        contato.telefone = stdin.readLineSync() ?? '';
+      }
+      print('telefone cadastrado com sucesso: ${contato.telefone}');
+      Historico.add('Adicionou: ${contato.telefone}');
 
-    while (contato.email.isEmpty ||
-        !RegExp(emailPattern).hasMatch(contato.email)) {
-      print(
-        '⚠ E-mail inválido. Use o formato nome@dominio.com, digite novamente:',
-      );
+      print('\n');
+      print('Digite seu email:');
       contato.email = stdin.readLineSync() ?? '';
-    }
-    print('email cadastrado com sucesso: ${contato.email}');
-    Historico.add('Adicionou: ${contato.email}');
 
-    print('\n');
-    print('✓ Contato adicionado.');
+      while (contato.email.isEmpty ||
+          !RegExp(emailPattern).hasMatch(contato.email)) {
+        print(
+          '⚠ E-mail inválido. Use o formato nome@dominio.com, digite novamente:',
+        );
+        contato.email = stdin.readLineSync() ?? '';
+      }
+      print('email cadastrado com sucesso: ${contato.email}');
+      Historico.add('Adicionou: ${contato.email}');
 
-
+      print('\n');
+      print('✓ Contato adicionado.');
     } else {
       print('Opção inválida.');
       return;
     }
-  
- 
   }
 
   //Feito
@@ -177,24 +180,27 @@ class Agenda {
     //Se o nome  não estiver vazio será imprimido a lista para o usuário.
     if (contatos.isNotEmpty) print('Lista de Nomes:');
     print('\n');
-  
 
-//Revisar (Bruno)
-  print('Contatos pessoais:');
-  for (var i = 0; i < contatos.length; i++) {
-    final contato = contatos[i]; //Questionar o professor 
-    if (contato is ContatoPessoal) {
-      print('${i + 1}. Nome: ${contato.nome}, telefone: ${contato.telefone}, email: ${contato.email}, Apelido: ${contato.apelido}');
+    //Revisar (Bruno)
+    print('Contatos pessoais:');
+    for (var i = 0; i < contatos.length; i++) {
+      final contato = contatos[i]; //Questionar o professor
+      if (contato is ContatoPessoal) {
+        print(
+          '${i + 1}. Nome: ${contato.nome}, telefone: ${contato.telefone}, email: ${contato.email}, Apelido: ${contato.apelido}',
+        );
+      }
     }
-  }
-//Revisar (Bruno)
-  print('\nContatos empresariais:');
-  for (var i = 0; i < contatos.length; i++) {
-    final contato = contatos[i];
-    if (contato is ContatoEmpresarial) {
-      print('${i + 1}. Nome: ${contato.nome}, telefone: ${contato.telefone}, email: ${contato.email}, Empresa: ${contato.empresa}');
+    //Revisar (Bruno)
+    print('\nContatos empresariais:');
+    for (var i = 0; i < contatos.length; i++) {
+      final contato = contatos[i];
+      if (contato is ContatoEmpresarial) {
+        print(
+          '${i + 1}. Nome: ${contato.nome}, telefone: ${contato.telefone}, email: ${contato.email}, Empresa: ${contato.empresa}',
+        );
+      }
     }
-  }
     //Listar número de contatos
 
     print('Total de contatos: ${contatos.length}');
@@ -204,7 +210,7 @@ class Agenda {
 
     //Pedir para o professor explicar quando der sobre o reduce.
     print(
-      'Nome mais longo: ${contatos.length > 0 ? contatos.reduce((maior, menor) => maior.().length > menor.().length ? maior : menor).() : '⚠ Lista vazia, cadastre algum contato.'}',
+      'Nome mais longo: ${contatos.length > 0 ? contatos.reduce((maior, menor) => maior.nome.length > menor.nome.length ? maior : menor).nome : '⚠ Lista vazia, cadastre algum contato.'}', //ABACAXI123 (faltava ".nome" no final do reduce - estava imprimindo o objeto Contato inteiro em vez do nome)
     );
     // Ela verifica se a lista de nomes não está vazia. Se não estiver,
     // ela usa o método reduce para comparar o comprimento de cada nome na lista e retorna o nome mais longo.
@@ -245,7 +251,7 @@ class Agenda {
       contatos[contatoIndex].email = stdin.readLineSync() ?? '';
 
       print(
-        'Novo contato: Nome: ${contatos[contatoIndex]}, \ntelefone: ${contatos[contatoIndex].telefone}, \n email: ${contatos[contatoIndex].email}',
+        'Novo contato: Nome: ${contatos[contatoIndex].nome}, \ntelefone: ${contatos[contatoIndex].telefone}, \n email: ${contatos[contatoIndex].email}', //ABACAXI123 (faltava ".nome" - estava imprimindo o objeto Contato inteiro em vez do nome)
       );
       print('✓ Atualizado.');
     }
@@ -263,7 +269,7 @@ class Agenda {
     print('\n');
     for (var i = 0; i < contatos.length; i++) {
       print(
-        '${i + 1}.Nome:${contatos[i]},telefone:${contatos[i].telefone},email:${contatos[i].email}\n',
+        '${i + 1}.Nome:${contatos[i].nome},telefone:${contatos[i].telefone},email:${contatos[i].email}\n', //ABACAXI123 (faltava ".nome" - estava imprimindo o objeto Contato inteiro em vez do nome)
       );
     }
     print('Qual contato deseja remover? (Digite o número correspondente)');
@@ -276,27 +282,21 @@ class Agenda {
       return;
     }
 
-    if (contatoIndex >= 0 && contatoIndex < contatos.length) {
-      print(
-        'Remover ? (s/n) -> Nome: ${contatos[contatoIndex].()},  telefone: ${contatos[contatoIndex].telefone()}, email: ${contatos[contatoIndex].email()}? (S/N)',
-      );
-      String confirmacao = stdin.readLineSync() ?? '';
-      if (confirmacao.toLowerCase() == 's') {
-        contatos.removeAt(contatoIndex);
-        print('✓ Contato removido.');
-      } else {
-        print('Remoção cancelada.');
-      }
-    } else {
-      contatos.removeAt(
-        contatoIndex,
-      ); // RemoveAt serve para remover o elemento do array
+    print(
+      'Remover ? (s/n) -> Nome: ${contatos[contatoIndex].nome}, telefone: ${contatos[contatoIndex].telefone}, email: ${contatos[contatoIndex].email}? (S/N)', //ABACAXI123 (faltava ".nome"/".telefone"/".email" - estava imprimindo o objeto Contato inteiro em vez dos campos)
+    );
+    String confirmacao = stdin.readLineSync() ?? '';
+    if (confirmacao.toLowerCase() == 's') {
+      String nomeRemovido = contatos[contatoIndex]
+          .nome; //ABACAXI123 (guarda o nome ANTES de remover, pois depois do removeAt o índice não existe mais / aponta pra outro contato)
+      contatos.removeAt(contatoIndex);
+      Historico.add(
+        'Removeu: $nomeRemovido',
+      ); //ABACAXI123 (antes tentava acessar contatos[contatoIndex] DEPOIS do removeAt, o que causava RangeError ou pegava o contato errado)
       print('✓ Contato removido.');
-    }
-    ; //e o contatoIndex é o índice do contato que o usuário deseja remover.
-
-    Historico.add('Removeu: ${contatos[contatoIndex].()}');
-    print('✓ Contato removido.');
+    } else {
+      print('Remoção cancelada.');
+    } //ABACAXI123 (removido o bloco "else" morto que nunca era alcançado e o "print" duplicado de confirmação no final da função)
   }
 
   void BuscarPorNome() {
@@ -311,9 +311,7 @@ class Agenda {
 
     List<int> indicesEncontrados = [];
     for (var i = 0; i < contatos.length; i++) {
-      if (contatos[i].().toLowerCase().contains(
-        nomeBusca.toLowerCase(),
-      )) {
+      if (contatos[i].nome.toLowerCase().contains(nomeBusca.toLowerCase())) {
         indicesEncontrados.add(i);
       }
     }
@@ -326,7 +324,7 @@ class Agenda {
       // Tive que pesquisar para conseguir imprimir está informação, pois não sabia como fazer isso.
       for (var index in indicesEncontrados) {
         print(
-          'Nome: ${contatos[index].()}, telefone: ${contatos[index].telefone()}, email: ${contatos[index].email()}',
+          'Nome: ${contatos[index].nome}, telefone: ${contatos[index].telefone}, email: ${contatos[index].email}',
         );
       }
     }
