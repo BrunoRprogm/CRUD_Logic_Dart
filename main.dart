@@ -3,16 +3,7 @@ import 'dart:io';
 import 'agenda.dart';
 import 'contato.dart';
 
-Contato contato = Contato('', '', '');
-
 Agenda agenda = Agenda([]);
-
-List<Contato> contatos = [];
-List<String> Historico = [];
-
-String telefonePattern = r'^\(?\d{2}\)?[\s-]?[\s9]?\d{4}-?\d{4}$';
-String emailPattern = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$';
-String nomePattern = r'^[a-zA-ZÀ-ÿ\s]+$';
 
 int opcao = 0;
 
