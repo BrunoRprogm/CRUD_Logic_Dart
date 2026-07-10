@@ -29,5 +29,6 @@ Conforme documentação toda a parte de robustez foi feita.
 - (liste cada bônus, ou escreva "nenhum bônus")
  
 ## Dificuldades e decisões
-(um parágrafo sobre o que foi mais difícil e como resolveu)
+Precisei usar IA para me ajudar na parte da refatoração dos códigos pois acabei me perdendo o processo.
+
     
